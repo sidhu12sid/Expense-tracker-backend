@@ -1,23 +1,82 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using System.ComponentModel.DataAnnotations;
 
 namespace Expense_tracker.Models
 {
     public class Expense
     {
-        public int ID { get; set; } 
-        public string? DESCRIPTION { get; set; }
-        public decimal AMOUNT { get; set; } 
-        public DateTime DATE { get; set; }
-        public string? CATEGORY { get; set; }
-        public DateTime? CREATED_DATE { get; set; }
-        public DateTime? UPDATED_DATE { get; set; }
+        public int Id { get; set; }
+
+        [MaxLength(250)]
+        public string? Description { get; set; }
+
+        [Required]
+        [Range(0, double.MaxValue)]
+        public decimal Amount { get; set; }
+
+        [Required]
+        public DateTime Date { get; set; }
+
+        [MaxLength(100)]
+        public string? Category { get; set; }
+
+        public DateTime? CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedDate { get; set; }
     }
 
 
-    public class ExpenseCategories
+
+
+
+    public class ExpenseCategory
     {
-        public int ID { get; set; }
-        public string? CATEGORY_NAME { get; set; }
-        public DateTime? CREATED_DATE { get; set; }
+        public int Id { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string CategoryName { get; set; } = null!;
+
+        public DateTime? CreatedDate { get; set; } = DateTime.UtcNow;
+
+        public DateTime? UpdatedDate { get; set; }
+
+        [Required]
+        public int? UserId { get; set; } = null!;
     }
+
+
+    [Index(nameof(Email), IsUnique = true)]
+    [Index(nameof(UserName), IsUnique = true)]
+    public class User
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string FirstName { get; set; } = null!;
+
+        [Required]
+        [MaxLength(50)]
+        public string LastName { get; set; } = null!;
+
+        [Required]
+        [MaxLength(30)]
+        public string UserName { get; set; } = null!;
+
+        public string? Otp { get; set; }
+
+        public bool IsActive { get; set; } = true;
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = null!;
+
+        [Required]
+        public string PasswordHash { get; set; } = null!;
+
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedDate { get; set; }
+    }
+
 }

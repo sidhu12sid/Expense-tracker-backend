@@ -14,7 +14,7 @@ namespace Expense_tracker.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<ExpenseCategories?> CreateCategoryAsync(ExpenseCategories category)
+        public async Task<ExpenseCategory?> CreateCategoryAsync(ExpenseCategory category)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace Expense_tracker.Repositories
             }
         }
 
-        public async Task<IEnumerable<ExpenseCategories>?> ListCategories()
+        public async Task<IEnumerable<ExpenseCategory>?> ListCategories()
         {
             try
             {
@@ -46,10 +46,10 @@ namespace Expense_tracker.Repositories
         {
             try
             {
-                var result = await _dbContext.Categories.Where(c => c.ID == catId).Select(q => new Category
+                var result = await _dbContext.Categories.Where(c => c.Id == catId).Select(q => new Category
                 {
-                    Id = q.ID,
-                    Name = q.CATEGORY_NAME
+                    Id = q.Id,
+                    Name = q.CategoryName
                 }).FirstOrDefaultAsync();
 
                 return result;
@@ -60,14 +60,14 @@ namespace Expense_tracker.Repositories
             }
         }
 
-        public async Task<ExpenseCategories?> EditCategoryAsync(ExpenseCategories categories, int categoryId)
+        public async Task<ExpenseCategory?> EditCategoryAsync(int categoryId,ExpenseCategory categories )
         {
             try
             {
-                var result = await _dbContext.Categories.FirstOrDefaultAsync(c => c.ID == categoryId);
+                var result = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
                 if(result != null)
                 {
-                    result.CATEGORY_NAME = categories.CATEGORY_NAME;
+                    result.CategoryName = categories.CategoryName;
                     await _dbContext.SaveChangesAsync();
                     return result;
                 }
@@ -88,7 +88,7 @@ namespace Expense_tracker.Repositories
         {
             try
             {
-                var result = await _dbContext.Categories.FirstOrDefaultAsync(c => c.ID == categoryId);
+                var result = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
                 if(result != null)
                 {
                     _dbContext.Categories.Remove(result);
