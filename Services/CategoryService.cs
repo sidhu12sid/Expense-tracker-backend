@@ -12,20 +12,20 @@ namespace Expense_tracker.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<ResponseDTO<ExpenseCategories>> CreateExpenseCategory(string categoryName)
+        public async Task<ResponseDTO<ExpenseCategory>> CreateExpenseCategory(string categoryName)
         {
             try
             {
-                ExpenseCategories category = new ExpenseCategories()
+                ExpenseCategory category = new ExpenseCategory()
                 {
-                    CATEGORY_NAME = categoryName,
-                    CREATED_DATE = DateTime.Now,
+                    CategoryName = categoryName,
+                    CreatedDate = DateTime.Now,
                 };
 
                 var result = await _categoryRepository.CreateCategoryAsync(category);
                 if(result != null)
                 {
-                    return new ResponseDTO<ExpenseCategories>()
+                    return new ResponseDTO<ExpenseCategory>()
                     {
                         Success = true,
                         Message = "Category created successfully",
@@ -33,7 +33,7 @@ namespace Expense_tracker.Services
                     };
                 }
 
-                return new ResponseDTO<ExpenseCategories>()
+                return new ResponseDTO<ExpenseCategory>()
                 {
                     Success = false,
                     Message = "Some error occured while creating the category",
@@ -42,7 +42,7 @@ namespace Expense_tracker.Services
             }
             catch(Exception ex)
             {
-                return new ResponseDTO<ExpenseCategories>
+                return new ResponseDTO<ExpenseCategory>
                 {
                     Data = null,
                     Success = false,
@@ -51,9 +51,9 @@ namespace Expense_tracker.Services
             }
         }
 
-        public async Task<ResponseDTO<IEnumerable<ExpenseCategories>>> GetCategoryList()
+        public async Task<ResponseDTO<IEnumerable<ExpenseCategory>>> GetCategoryList()
         {
-            var response = new ResponseDTO<IEnumerable<ExpenseCategories>>();
+            var response = new ResponseDTO<IEnumerable<ExpenseCategory>>();
             try
             {
                 var result = await _categoryRepository.ListCategories();
@@ -108,16 +108,17 @@ namespace Expense_tracker.Services
             return response;
         }
 
-        public async Task<ResponseDTO<ExpenseCategories>> EditExpenseCategory(int catId,string categoryName)
+        public async Task<ResponseDTO<ExpenseCategory>> EditExpenseCategory(int catId,string categoryName)
         {
-            var response = new ResponseDTO<ExpenseCategories>();
+            var response = new ResponseDTO<ExpenseCategory>();
             try
             {
-                var expenseCategory = new ExpenseCategories()
+                var expenseCategory = new ExpenseCategory()
                 {
-                    CATEGORY_NAME = categoryName
+                    CategoryName = categoryName
                 };
-                var result = await _categoryRepository.EditCategoryAsync(expenseCategory, catId);
+
+                var result = await _categoryRepository.EditCategoryAsync(catId, expenseCategory);
                 if(result != null)
                 {
                     response.Success= true;

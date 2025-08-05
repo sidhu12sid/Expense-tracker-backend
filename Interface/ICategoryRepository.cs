@@ -5,13 +5,13 @@ namespace Expense_tracker.Interface
 {
     public interface ICategoryRepository
     {
-        Task<ExpenseCategories?> CreateCategoryAsync(ExpenseCategories category);
+        Task<ExpenseCategory?> CreateCategoryAsync(ExpenseCategory category);
 
-        Task<IEnumerable<ExpenseCategories>?> ListCategories();
+        Task<IEnumerable<ExpenseCategory>?> ListCategories();
 
         Task<Category?> ViewCategory(int catId);
 
-        Task<ExpenseCategories?> EditCategoryAsync(ExpenseCategories categories, int categoryId);
+        Task<ExpenseCategory?> EditCategoryAsync(int categoryId, ExpenseCategory categories);
 
         Task<bool> DeleteCategory(int categoryId);
     }
