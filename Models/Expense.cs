@@ -18,6 +18,7 @@ namespace Expense_tracker.Models
         [Required]
         public DateTime Date { get; set; }
 
+
         [MaxLength(100)]
         public string? Category { get; set; }
 
@@ -66,7 +67,7 @@ namespace Expense_tracker.Models
 
         public string? Otp { get; set; }
 
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; } = false;
 
         [Required]
         [EmailAddress]

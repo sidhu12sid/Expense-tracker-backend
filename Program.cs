@@ -26,6 +26,7 @@ namespace Expense_tracker
 
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
 
             var app = builder.Build();
 
